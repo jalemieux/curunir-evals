@@ -1,0 +1,216 @@
+{
+  "version": "fe87420",
+  "model": "openai/gemma-4-26B-A4B-it",
+  "timestamp": "2026-04-04T00:30:56.550979+00:00",
+  "results": [
+    {
+      "category": "Tool Use Accuracy",
+      "prompt": "Find all Python files under src/tools/ that contain the word \"async\" and tell me how many there are.",
+      "tool_calls": [
+        "Grep pattern='async'"
+      ],
+      "response": "There are 2 Python files under `src/tools/` that contain the word \"async\":\n\n1. `src/tools/dispatcher.py` (12 occurrences)\n2. `src/tools/delegate.py` (4 occurrences)"
+    },
+    {
+      "category": "Tool Use Accuracy",
+      "prompt": "Read the file context/identity.md and summarize it in one sentence.",
+      "tool_calls": [
+        "Read context/identity.md"
+      ],
+      "response": "The file defines curunir as a professional, proactive assistant equipped with various tools, capabilities, and guidelines for handling tasks, memory, and scheduling."
+    },
+    {
+      "category": "Tool Use Accuracy",
+      "prompt": "What is the current working directory? List all top-level folders.",
+      "tool_calls": [
+        "Bash pwd && ls -F"
+      ],
+      "response": "The current working directory is `/app`.\n\nThe top-level folders are:\n- `context/`\n- `docs/`\n- `journal/`\n- `landing_pages/`\n- `secrets/`\n- `skills/`\n- `src/`\n- `workspace/`"
+    },
+    {
+      "category": "Multi-Step Planning",
+      "prompt": "I want to add a new tool called \"summarize\" that takes a file path and returns a summary. Walk me through every file I'd need to change and in what order, but don't make any changes.",
+      "tool_calls": [],
+      "response": "To add a new tool like `summarize`, you need to follow the pattern established by the existing skills. Since skills in this environment are modular, you aren't just adding a function; you are creating a new \"Skill\" that the agent can load and use.\n\nHere is the step-by-step architectural walkthrough of the files you would need to modify and the order in which to do it.\n\n### 1. Create the Skill Directory and Definition\n**File:** `skills/summarize/SKILL.md` (New File)\n**Why first:** In this system, the `SKILL.md` acts as the \"brain\" and documentation for the tool. It defines:\n*   **The Trigger:** What instructions from the user cause the agent to use this skill.\n*   **The Instructions:** A step-by-step guide for the agent on how to perform the summarization (e.g., \"Read the file using `read`, then use your internal reasoning to condense it...\").\n*   **The Interface:** Explicitly defining that it requires a `file_path` argument.\n\n### 2. Implement the Logic (The \"Body\")\n**File:** `skills/summarize/summarize.py` (or similar script, New File)\n**Why second:** While the agent can use its own reasoning to summarize, a \"tool\" often implies a programmatic way to handle the data. You would write a script here that:\n*   Takes a command-line argument for the path.\n*   Handles file reading and error checking (e.g., \"File not found\").\n*   (Optional) If you want to use a specific model or library for the summarization, the logic lives here.\n\n### 3. Register the Skill (If required by the loader)\n**File:** `skills/README.md` or a central registry file (Update)\n**Why third:** Most agentic systems maintain a registry so the `load_skill` tool knows the skill exists. You would add an entry for `summarize` here, describing its purpose so the agent can \"discover\" it during its initialization or when searching for capabilities.\n\n### 4. Update the Agent's System Prompt/Capabilities\n**File:** `system_prompts/` (or wherever your core agent instructions reside) (Update)\n**Why fourth:** You need to ensure the agent knows it *has* the ability to load this skill. While the `load_skill` tool is generic, adding a high-level mention in the system instructions like *\"You have access to a suite of specialized skills including summarization...\"* helps the agent proactively decide to use it without being explicitly told every single time.\n\n---\n\n### Summary of Workflow Order:\n1.  **Define the Contract:** `skills/summarize/SKILL.md` (How it works).\n2.  **Build the Engine:** `skills/summarize/summarize.py` (The actual code).\n3.  **Publish the Skill:** `skills/README.md` (Making it discoverable).\n4.  **Refine Intent:** `system_prompts/...` (Ensuring the agent knows when to call it).\n\n**Note:** If you intended for this to be a **primitive tool** (a hardcoded function in the core codebase) rather than a **Skill**, you would instead be looking at modifying the `tools/` directory and the main agent execution loop, which is a much more invasive process. The \"Skill\" approach is the recommended way to extend functionality here."
+    },
+    {
+      "category": "Multi-Step Planning",
+      "prompt": "Find every skill that uses the \"attach\" tool, then for each one tell me what it does and why it needs attach.",
+      "tool_calls": [
+        "Glob **/*.md",
+        "Grep pattern='attach'"
+      ],
+      "response": "Based on my search of the codebase, there are two skills that explicitly use and require the `attach` tool:\n\n### 1. `deep-research`\n* **What it does:** It researches a topic by breaking it down into sub-questions, selecting appropriate data sources, and compiling a structured report.\n* **Why it needs `attach`:** It uses the tool to deliver the final structured report as a **PDF attachment**. The skill's instructions specifically mandate using `attach(path=\"{file}.pdf\")` so that the full research findings are provided as a file rather than just text in the chat.\n\n### 2. `email-send`\n* **What it does:** It sends emails using the `gog` CLI via bash, supporting plain text, HTML, and file attachments.\n* **Why it needs `attach`:** It uses the tool (and the underlying `--attach` flag in the CLI) to **include files as attachments** in the sent email, allowing the agent to send reports, data files, or other documents as part of an email communication."
+    },
+    {
+      "category": "Multi-Step Planning",
+      "prompt": "Figure out how an incoming message travels from the WebSocket connection all the way to a tool being executed. Trace the full path through the code, citing files and line numbers.",
+      "tool_calls": [
+        "Glob **/*websocket*",
+        "Read docs/superpowers/specs/2026-03-16-websocket-cli-channel-design.md",
+        "Glob src/channels/ws.py",
+        "Read src/channels/ws.py",
+        "Grep pattern='in_queue'",
+        "Glob src/router.py",
+        "Glob src/router*",
+        "Bash find src -maxdepth 2 -name \"*router*\"",
+        "Read src/channels/router.py",
+        "Grep pattern='in_queue.get()'",
+        "Grep pattern='await .*queue.get()'",
+        "Grep pattern='in_queue'",
+        "Glob run.py",
+        "Read run.py"
+      ],
+      "response": "The path of an incoming message from a WebSocket connection to tool execution follows this trace:\n\n### 1. WebSocket Reception (`src/channels/ws.py`)\nThe journey begins in the `WebSocketChannel` class, which manages the lifecycle of the WebSocket server.\n- **Connection Handling:** When a client connects, `_handle_connection` is invoked (`src/channels/ws.py:34`).\n- **Message Loop:** The method enters an async loop (`src/channels/ws.py:54`) that awaits raw data from the `websockets` connection.\n- **Parsing:** The raw JSON string is parsed into a dictionary (`src/channels/ws.py:56`).\n- **Message Construction:** A new `IncomingMessage` object is instantiated, wrapping the parsed data with metadata like `channel=\"cli\"` and `session_id=\"cli\"` (`src/channels/ws.py:61-67`).\n- **Enqueuing:** The message is pushed into the `in_queue` (`src/channels/ws.py:68`).\n\n### 2. Message Processing (`run.py`)\nThe `run.py` script acts as the orchestrator, wiring the queues together and running the agent loop.\n- **The Worker Loop:** The `agent_worker` coroutine runs continuously, awaiting the next message from the `in_queue` (`run.py:126`).\n- **Content Preparation:** Once a message is received, `_build_content` is called to prepend channel metadata to the message content (`run.py:159`).\n- **Agent Handover:** The prepared content and session ID are passed to the `agent.handle()` method (`run.py:163`).\n\n### 3. Agent Logic & Tool Dispatch (`src/agent/agent.py`)\n*Note: While the exact internal logic of `agent.handle` is in `src/agent/agent.py` (not fully inspected here), the trace through `run.py` reveals the mechanism.*\n- **LLM Interaction:** The `agent.handle` method processes the content through an LLM.\n- **Tool Call Detection:** If the LLM decides to use a tool, it triggers a callback. In `run.py`, this callback is the `on_tool_call` function defined at `run.py:149`.\n- **Tool Execution:** The `agent.handle` method (internally) identifies the tool name and arguments from the LLM response and executes the corresponding tool implementation.\n\n### Summary of Flow\n`WebSocket (Client)` $\\rightarrow$ `WebSocketChannel._handle_connection` (`src/channels/ws.py:54`) $\\rightarrow$ `in_queue.put()` (`src/channels/ws.py:68`) $\\rightarrow$ `agent_worker` (`run.py:126`) $\\rightarrow$ `agent.handle()` (`run.py:163`) $\\rightarrow$ **Tool Execution**"
+    },
+    {
+      "category": "Memory Retrieval",
+      "prompt": "What do you know about me? Check your memory before answering.",
+      "tool_calls": [
+        "Glob context/memory/**/*.md",
+        "Read context/memory/README.md",
+        "Read context/memory/preferences.md"
+      ],
+      "response": "Based on my memory, here is what I know about you:\n\n### **Personal Profile**\n*   **Name:** [Owner Name] (goes by **[Owner]**).\n*   **Location:** [City, State].\n*   **Family:** You are married to [Spouse]. You have two children: [Child 1] (9) and [Child 2] (8) (also mentioned in context as [Child 3]).\n*   **Age:** 48 (as of 2026).\n\n### **Professional Profile**\n*   **Current Role:** Engineering leader at **[Employer]** (6 years there; 20+ years total SaaS experience).\n*   **Entrepreneurship:** Founder of **[Owner's Company]** ([Owner's Company]). You are building AI agent systems for marketing and SaaS. \n    *   *Note:* You are not affiliated with the UK-based fintech [Owner's Company] or the crypto [Owner's Company] Network.\n*   **X/Twitter Presence:** You use `[@owner_handle]` and are actively working to grow your presence under `[@company_handle]`. Your priority for an audience is **investors first**, then potential customers, and builders third.\n\n### **Working Style & Preferences**\n*   **Communication Style:** You prefer **extremely terse, action-oriented communication**. You value directness and skip pleasantries or preambles.\n*   **Content Voice:** You have a strong distaste for \"corporate tone,\" \"thought-leader slop,\" and the self-bragging culture of LinkedIn. You prefer an authentic, \"curious engineer\" voice\u2014earnest, understated, and focused on sharing learnings rather than performing.\n*   **AI Interaction:** You don't take AI outputs at face value. You often use a layered approach (e.g., asking ChatGPT for a draft, then asking me to **\"critique the critique\"**). You value depth, substance, and meta-analysis over polished but shallow answers.\n*   **Branding Preference:** You prefer to stand on your own merits rather than name-dropping [Employer] in your personal branding or bios. You want to be seen as a prolific AI builder across multiple domains."
+    },
+    {
+      "category": "Memory Retrieval",
+      "prompt": "Before answering this: what projects am I currently working on? Look in memory first.",
+      "tool_calls": [
+        "Glob context/memory/**/*.md",
+        "Read context/memory/projects.md"
+      ],
+      "response": "Based on your `projects.md` memory, you are working on several active projects categorized into different domains:\n\n### 1. Core Agent Framework (The \"Curunir\" Ecosystem)\n*   **`curunir`**: Your primary autonomous agent framework (Python, Docker, asyncio). It's currently active and operational.\n*   **`curunir-context`**: The persistent state/memory repository for Curunir.\n*   **`curunir-personas`**: A packaging layer for bundling specific skill collections (e.g., `financial-analyst`).\n\n### 2. Tooling & Meta-Skills\n*   **`skill_factory`**: A meta-skill used to build and manage other AI agent skills via a 4-phase TDD workflow.\n*   **`code_factory`**: An autonomous \"issue-to-merge\" pipeline that handles GitHub issues through to PRs.\n\n### 3. Products & Applications\n*   **`gtm-agent` (Codename: \"LaunchKit\")**: An AI-powered GTM product for technical solopreneurs. You have already built the `gtm-onboard-ingest` skill.\n*   **`conversation_with_ai`**: A tool to compare perspectives from different frontier models.\n*   **`trading_agent`**: A quantitative trading agent bridging LLM reasoning with Coinbase.\n*   **`playbook`**: An AI email assistant for Gmail/task management (currently in a public reboot phase).\n*   **`arkhive` / `arkhive2`**: A local-first, uncensored, offline AI platform (arkhive.tech).\n*   **`wordsnap`**: A multi-platform word tool (macOS, web, JS).\n*   **`object73`**: A financial dashboard.\n\n### 4. Infrastructure & Exploration\n*   **[Owner's Company]**: Currently in an exploratory stage (deciding between consulting, product, or both).\n*   **`more-serious-ideas`**: An ideas repository.\n\n**Note:** Your memory indicates that some tasks (like the X audit follow-up and [Owner's Company] clarification) are still listed as open in your `tasks.md`."
+    },
+    {
+      "category": "Memory Retrieval",
+      "prompt": "Who are the people you remember? Check context/memory/ for any information about contacts or collaborators.",
+      "tool_calls": [
+        "Glob context/memory/*.md",
+        "Read context/memory/README.md",
+        "Glob context/memory/people/*.md",
+        "Grep pattern='Jac'"
+      ],
+      "response": "Based on my memory, I primarily remember **[Owner]** ([Owner Name]), who is my primary collaborator and user.\n\nHere is what I know about him and the few other people mentioned:\n\n### **Primary Collaborator**\n*   **[Owner] ([Owner Name]):**\n    *   **Role:** Founder of **[Owner's Company]**, a Bay Area venture focused on building AI agents for marketing and SaaS. \n    *   **Background:** Has ~20 years of total SaaS experience, including 6 years at [Employer] (though he prefers not to name-drop [Employer] in his personal branding).\n    *   **Personality/Style:** Prefers extremely terse, action-oriented communication (\"yes\", \"critique the critique\"). He strongly dislikes corporate tone, self-promotion, and \"thought-leadership slop\" (common on LinkedIn).\n    *   **Current Focus:** Growing his presence on X ([@owner_handle]) to connect with investors, potential customers, and fellow builders. He is also exploring the business model for [Owner's Company] (consulting vs. product).\n    *   **Location:** [City, State].\n\n### **Other People Mentioned**\n*   **[Child 3]:** [Owner]'s child (mentioned in the context of a [Healthcare Provider] billing dispute).\n*   **Tahir Farooqui:** Mentioned only to disambiguate [Owner]'s company from the UK fintech company [Owner's Company], which is associated with him.\n*   **X/Twitter Personalities:** During a profile audit, I researched several top accounts in the AI/agent niche, including:\n    *   Yohei Nakajima\n    *   Rowan Cheung\n    *   Paul Roetzer\n    *   Varun Mayya\n\nI do not have any specific files in the `context/memory/people/` directory, suggesting that most of my \"knowledge\" of people is currently derived from conversation archives and [Owner]'s personal preferences."
+    },
+    {
+      "category": "Instruction Following",
+      "prompt": "What is your name and what are you? Answer only from your identity file, don't make anything up.",
+      "tool_calls": [
+        "Glob *identity*",
+        "Bash ls -R | grep -i identity",
+        "Read identity.md",
+        "Bash find . -maxdepth 2 -name \"*identity*\"",
+        "Read context/identity.md"
+      ],
+      "response": "You are curunir, a proactive assistant with many useful skills and tools."
+    },
+    {
+      "category": "Instruction Following",
+      "prompt": "List all skills you have available. Only list what's in your skill manifest, nothing else.",
+      "tool_calls": [],
+      "response": "| Skill | When to Use |\n|-------|-------------|\n| deep-research | Use when asked to research a topic in depth, produce a research report, or investigate something requiring multiple sources. Trigger: user asks for deep research, comprehensive analysis, or a written report on a topic. |\n| email-send | Send an email using gog CLI via bash \u2014 supports plain text, HTML, attachments |\n| extract-learnings | Use when processing Slack catch-ups, meeting notes, or incident summaries to extract durable knowledge worth remembering long-term while filtering out ephemeral items |\n| gemini-search | Use when you need grounded web search or YouTube summarization via the Gemini API. Trigger: a skill or task requires web research with source citations through Google Search, or needs to summarize a YouTube video. |\n| git-contribute | Autonomous bug fix and feature implementation lifecycle for GitHub codebases \u2014 picks up open issues, proposes an implementation plan via draft PR for human review, incorporates feedback, implements the fix or feature using TDD, and shepherds the PR through code review to merge. Covers the full issue-to-merge lifecycle: claim \u2192 plan \u2192 review \u2192 implement \u2192 verify \u2192 merge. Trigger: user asks to contribute to a repo, fix bugs, implement features, or invoked on a loop to pick up work from a GitHub issue tracker. |\n| linkedin-research | Use when an agent needs LinkedIn profile data, company info, job postings, or professional context for GTM research. Trigger: a skill or task requires founder backgrounds, company positioning, ICP job titles, or buyer language sourced from LinkedIn. |\n| playwright | Use when an agent needs to fetch content from a web page (especially JS-rendered), navigate sites, extract text/data, take screenshots, or interact with web UIs. Trigger: tasks involving web content retrieval, page scraping, form submission, or browser-based navigation. |\n| reddit-research | Use when you need Reddit discussions, reviews, complaints, or community sentiment for product research. Trigger: an agent needs to find what real users are saying about a product, competitor, pain point, or topic on Reddit. |\n| skill-factory | Use when asked to create, write, or build a new skill \u2014 gathers requirements, finds docs, generates SKILL.md, and smoke tests it |\n| web-search | Search the web using Brave Search API via bash \u2014 returns titles, URLs, descriptions |\n| xai-search | Use when you need to search the web or X/Twitter via the xAI API. Trigger: a skill or task requires web search or social listening through Grok, or the agent needs real-time X/Twitter data. |"
+    },
+    {
+      "category": "Instruction Following",
+      "prompt": "I want you to write a haiku about the ocean. Do not use any tools \u2014 just respond directly.",
+      "tool_calls": [],
+      "response": "Blue waves kiss the sand,\nEndless tides pull at the moon,\nDeep, salt-scented breath."
+    },
+    {
+      "category": "Skill Orchestration",
+      "prompt": "Load the web-search skill and search for \"asyncio best practices 2025\". Summarize the top results.",
+      "tool_calls": [
+        "LoadSkill web-search",
+        "Bash curl -s \"https://api.search.brave.com/res/v1/web/search?q..."
+      ],
+      "response": "Based on the search results for \"asyncio best practices 2025,\" here is a summary of the top findings and emerging trends in asynchronous Python programming:\n\n### 1. Core Execution & Lifecycle\n*   **Entry Point:** Always use `asyncio.run()` as the primary entry point to manage the event loop lifecycle. \n*   **Structured Concurrency:** With newer Python versions (3.11+), there is a strong shift toward using `asyncio.TaskGroup()` for managing multiple tasks. This provides better error handling and ensures that if one task fails, others are cleaned up correctly, preventing \"dangling\" tasks.\n*   **Avoid Blocking the Loop:** A critical rule remains: **never call CPU-bound or blocking I/O code directly** within an `async` function. This stalls the entire event loop.\n    *   **Solution for CPU-bound tasks:** Use `loop.run_in_executor` with a `ProcessPoolExecutor`.\n    *   **Solution for Blocking I/O:** Use `loop.run_in_executor` with a `ThreadPoolExecutor`.\n\n### 2. Performance & Resource Management\n*   **Connection Pooling:** For database operations (e.g., using `asyncpg` or `Gino`), follow modern pooling practices. For 2025, it is recommended to overprovision connection pools slightly (by ~20%) to account for garbage collection pauses, especially in Python 3.13+.\n*   **Concurrency Control:** Use **Semaphores** (`asyncio.Semaphore`) to limit the number of concurrent operations (like API requests or database connections) to prevent overwhelming external services or hitting rate limits.\n*   **Yielding Control:** In certain heavy data pipelines, using `await asyncio.sleep(0)` can be a \"hacky\" but effective way to yield control back to the event loop, preventing a single task from monopolizing the loop.\n\n### 3. Modern Tooling & Libraries\n*   **HTTP Clients:** Use `httpx.AsyncClient` instead of older libraries. A best practice is to use a **single shared client instance** via an async context manager rather than creating a new client for every request.\n*   **Frameworks:** **FastAPI** continues to be the industry standard for leveraging `asyncio` in backend web services, often paired with asynchronous database drivers.\n*   **LLM Workflows:** There is a growing trend of using `asyncio` to optimize LLM (Large Language Model) pipelines, specifically for managing concurrent API calls to services like OpenAI or Anthropic to reduce total latency.\n\n### 4. Testing & Debugging\n*   **Independent Tests:** Ensure each test case is independent and that the event loop is in a clean state before each test.\n*   **Debugging Mode:** Utilize `asyncio`'s debug mode during development to catch common errors like coroutines that were never awaited.\n\n### Summary Table of Best Practices\n| Category | Best Practice | Avoid |\n| :--- | :--- | :--- |\n| **Lifecycle** | `asyncio.run()` & `asyncio.TaskGroup()` | Manual loop management |\n| **Blocking** | `run_in_executor` (Threads/Processes) | Direct calls to `time.sleep()` or heavy math |\n| **Networking** | Shared `httpx.AsyncClient` | Creating a client per request |\n| **Concurrency** | `asyncio.Semaphore` | Unbounded task creation |"
+    },
+    {
+      "category": "Skill Orchestration",
+      "prompt": "Load the deep-research skill and tell me what sub-skills it depends on before running anything.",
+      "tool_calls": [
+        "LoadSkill deep-research"
+      ],
+      "response": "The `deep-research` skill has the following dependencies:\n\n**Mandatory Prerequisite:**\n* `web-search` (Used as the backbone for every sub-question)\n\n**Topic-Dependent Sub-skills:**\nDepending on your specific request, it will load one or more of the following:\n* `reddit-research` (For community discussions, user reviews, and sentiment)\n* `xai-search` (For real-time reactions and social listening on X/Twitter)\n* `gemini-search` (For Google-grounded web search and YouTube summarization)\n* `linkedin-research` (For professional context, company/founder research, and job market signals)"
+    },
+    {
+      "category": "Skill Orchestration",
+      "prompt": "I want to research what people on Reddit think about LLM eval frameworks. Use the appropriate skill.",
+      "tool_calls": [
+        "LoadSkill reddit-research",
+        "Bash # Step 1: Find relevant posts using Brave Search\nURLS=$(c..."
+      ],
+      "response": "Based on recent discussions on Reddit, there is a significant amount of community interest and debate surrounding LLM evaluation frameworks. The sentiment can be categorized into several key themes:\n\n### 1. Popular Frameworks & Platforms\nThe community frequently mentions several standout tools, often categorized by their primary use case:\n\n*   **Open-Source Favorites:**\n    *   **DeepEval:** Highly praised for its \"Pytest for LLMs\" approach, making it very developer-friendly for those integrated into CI/CD pipelines.\n    *   **Arize Phoenix:** Noted for its strong focus on observability and its excellent open-source libraries for both Python and TypeScript.\n    *   **RAGAs:** The go-to mention for specific RAG (Retrieval-Augmented Generation) pipeline evaluations (e.g., Faithfulness, Contextual Precision).\n    *   **LangFuse:** Popular for its robust tracing capabilities, though some users feel its evaluation features are still catching up to its observability strengths.\n    *   **Opik (by Comet):** Recognized as a strong open-source contender with multi-modal support and an agent optimizer SDK.\n\n*   **Managed/Proprietary Solutions:**\n    *   **LangSmith:** Highly integrated with the LangChain ecosystem, making it a default for many, though some users warn about \"ecosystem lock-in.\"\n    *   **Braintrust:** Favored by developers for its speed in prompt iteration and benchmarking, though it's seen as more engineering-heavy.\n    *   **Weights & Biases (W&B) Weave:** Used for tracking experiments and quick evaluations, especially in multimodal contexts.\n    *   **Arize Ax:** Considered a top-tier solution for agent-centric debugging and session-level evaluation.\n\n### 2. Key User Pain Points & Challenges\nUsers highlighted several recurring difficulties when implementing these frameworks:\n\n*   **\"Vibe Testing\" vs. Real Metrics:** A common frustration is that many metrics provide \"misleading scores\" that don't align with human judgment, leading to \"analysis paralysis.\"\n*   **Static vs. Dynamic/Agentic Evaluation:** Many existing tools excel at static text or single-turn prompts but struggle with **multi-turn agentic workflows**. Users are increasingly looking for \"session-level\" analysis to understand how agents behave over entire tasks.\n*   **The \"Testing vs. Observability\" Gap:** There is a clear distinction made between *observability* (tracing what happened in production) and *testing* (running a suite of tests before deployment). Users feel they often have to stitch together different tools to cover both.\n*   **Setup Complexity & Scalability:** High-quality evaluation is often described as time-consuming to set up and difficult to scale without significant human annotation or expensive \"LLM-as-a-judge\" setups.\n\n### 3. Emerging Trends\n*   **LLM-as-a-Judge:** Using frontier models (like GPT-4 or o1) to evaluate other models is widely accepted but carries concerns about cost and bias.\n*   **Agent-Centric Tools:** There is a growing demand for tools that treat an agent like \"code\"\u2014capable of running automated test suites, simulating environments, and providing root-cause analysis for reasoning failures.\n*   **Real-time/Production Monitoring:** Moving beyond batch evaluation to real-time guardrails and \"semantic drift\" detection in live environments."
+    },
+    {
+      "category": "Error Recovery",
+      "prompt": "Read the file src/nonexistent/fake_module.py and tell me what's in it.",
+      "tool_calls": [
+        "Read src/nonexistent/fake_module.py"
+      ],
+      "response": "The file `src/nonexistent/fake_module.py` does not exist."
+    },
+    {
+      "category": "Error Recovery",
+      "prompt": "Run the bash command `python -c \"import nonexistent_module\"` and handle whatever happens.",
+      "tool_calls": [
+        "Bash python -c \"import nonexistent_module\""
+      ],
+      "response": "The command failed as expected with a `ModuleNotFoundError` because `nonexistent_module` does not exist in the Python environment.\n\n**Error details:**\n```python\nTraceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'nonexistent_module'\n```"
+    },
+    {
+      "category": "Error Recovery",
+      "prompt": "Search for the pattern \"zzz_no_match_zzz\" across the entire codebase. What do you conclude?",
+      "tool_calls": [
+        "Grep pattern='zzz_no_match_zzz'"
+      ],
+      "response": "I searched for the pattern `zzz_no_match_zzz` across the entire codebase and found no matches.\n\n**Conclusion:** The pattern does not exist anywhere in the current codebase."
+    },
+    {
+      "category": "Output Quality",
+      "prompt": "Explain how Curunir's context overflow handling works. Be concise \u2014 under 100 words.",
+      "tool_calls": [],
+      "response": "To prevent context overflow and maintain performance, Curunir employs three primary strategies:\n\n1.  **Delegation:** Complex, multi-step, or data-heavy tasks are offloaded to sub-agents. This isolates intermediate reasoning and large datasets into separate, clean context windows, returning only the final result.\n2.  **Persistent Memory:** Durable knowledge is stored in `context/memory/`. Instead of keeping everything in active context, Curunir searches memory for relevant past decisions or project details as needed.\n3.  **Concise Communication:** Curunir is designed to be direct and brief, minimizing unnecessary token consumption during interactions."
+    },
+    {
+      "category": "Output Quality",
+      "prompt": "Compare the delegate tool to a simple function call. When would you use one vs the other?",
+      "tool_calls": [],
+      "response": "The choice between using a **delegate tool** and a **simple function call** (or direct tool use) depends on the complexity of the task, the need for context management, and the level of autonomy required.\n\nHere is a comparison to help you decide:\n\n### 1. Simple Function/Tool Call\nA simple tool call is a direct request to perform a specific, atomic action (e.g., `read_file`, `web_search`, `bash`).\n\n*   **How it works:** You (the agent) identify a single step, call the tool, receive the immediate output, and then decide what to do next based on that output.\n*   **Context:** The output of the tool is added directly to your current conversation history.\n*   **Best for:**\n    *   **Atomic actions:** Fetching a single piece of data, reading a file, or running a single command.\n    *   **Low-complexity tasks:** When the next step is obvious once the tool returns.\n    *   **Short-lived operations:** Tasks that don't require a \"train of thought.\"\n\n### 2. Delegate Tool\nThe `delegate` tool spawns a **sub-agent**\u2014a new, independent instance of an agent with its own clean context window.\n\n*   **How it works:** You hand off a high-level objective to the sub-agent. The sub-agent then performs its own loop of reasoning, tool usage, and error correction. You only see the final result.\n*   **Context:** The sub-agent's intermediate \"thinking,\" multiple tool calls, and trial-and-error are kept **out** of your primary conversation history. You only receive the final answer.\n*   **Best for:**\n    *   **Complex, multi-step workflows:** Tasks that require a sequence of many different tools (e.g., \"Research this company, summarize their last three SEC filings, and write a comparison report\").\n    *   **Large data processing:** When you need to process a massive document or a large set of files that would otherwise overwhelm your context window.\n    *   **\"Deep Work\":** When a task requires significant \"reasoning cycles\" that would clutter your own history and make you lose track of the main conversation.\n    *   **Isolation:** When you want to ensure that a messy or exploratory process doesn't pollute your primary state.\n\n---\n\n### Comparison Summary\n\n| Feature | Simple Tool Call | Delegate Tool |\n| :--- | :--- | :--- |\n| **Scope** | Single, atomic action | High-level, multi-step objective |\n| **Context Management** | Fills your current context window | Keeps your context window clean |\n| **Autonomy** | Low (you control every step) | High (sub-agent manages its own steps) |\n| **Visibility** | You see every intermediate step | You only see the final result |\n| **Complexity** | Best for simple \"Input $\\rightarrow$ Output\" | Best for \"Goal $\\rightarrow$ Solution\" |\n\n### Decision Rule of Thumb\n\n*   **Use a tool call if:** \"I need to know the content of `config.json`.\"\n*   **Use a delegate if:** \"I need you to audit all configuration files in this directory, find any security vulnerabilities, and propose a fix for each one.\""
+    },
+    {
+      "category": "Output Quality",
+      "prompt": "What are the three most important design decisions in this codebase? Justify each briefly.",
+      "tool_calls": [
+        "Bash ls -R",
+        "Read README.md"
+      ],
+      "response": "Based on the codebase architecture and the philosophy outlined in the `README.md`, the three most important design decisions are:\n\n### 1. Skills as On-Demand Markdown Instructions\nInstead of hardcoding complex workflows into the system prompt or as rigid code modules, Curunir treats skills as modular Markdown files loaded via `load_skill`.\n*   **Justification:** This solves the \"context rot\" problem. By keeping the base system prompt minimal and only injecting detailed skill instructions when requested, the agent avoids performance degradation caused by overwhelming the LLM with irrelevant instructions, while still maintaining high capability for specific tasks.\n\n### 2. Memory as Structured Markdown (vs. Vector RAG)\nThe system uses a filesystem-based, multi-layered Markdown structure for persistent memory (`context/memory/`) rather than a traditional vector database/RAG pipeline.\n*   **Justification:** The design leverages the inherent strength of frontier models in reading and reasoning over structured text. This approach is more transparent, easier for humans to audit/edit, and avoids the retrieval noise and complexity often associated with embedding-based search in specialized agentic workflows.\n\n### 3. Agent Agency via Shell and Filesystem Access\nThe framework is designed around the principle that \"Models are best with bash,\" providing core tools like `bash`, `read`, `write`, `grep`, and `edit` as first-class capabilities.\n*   **Justification:** Providing direct shell access allows the agent to move beyond simple text generation to true execution. It enables the agent to use any CLI tool available in its environment (like `ripgrep` or `git`) to solve problems, making the agent a \"man of skill\" that can interact with the operating system to perform complex, multi-step operations."
+    },
+    {
+      "category": "Efficiency",
+      "prompt": "What model am I configured to use? Find the answer with as few tool calls as possible.",
+      "tool_calls": [
+        "Bash env | grep -E \"MODEL|AI_MODEL|LLM_MODEL\""
+      ],
+      "response": "You are configured to use `openai/gemma-4-26B-A4B-it`."
+    },
+    {
+      "category": "Efficiency",
+      "prompt": "Does this project have any scheduled tasks? Check and report.",
+      "tool_calls": [
+        "Schedule list"
+      ],
+      "response": "No, this project currently has no scheduled tasks."
+    },
+    {
+      "category": "Efficiency",
+      "prompt": "How many tests does this project have? Just give me the number.",
+      "tool_calls": [
+        "Bash find . -maxdepth 3 -name \"*test*\" -o -name \"*spec*\" -o -n..."
+      ],
+      "response": "3"
+    }
+  ]
+}
