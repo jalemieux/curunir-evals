@@ -42,6 +42,8 @@ The harness connects over WebSocket, sends each prompt, records every tool call 
 
 ## Results
 
+Full results: [Gemma 4 26B](https://github.com/jalemieux/curunir-evals/blob/main/eval-20260403-174008-openai_gemma-4-26B-A4B-it.md) | [Claude Sonnet 4](https://github.com/jalemieux/curunir-evals/blob/main/eval-20260403-175244-anthropic_claude-sonnet-4-20250514.md)
+
 ### Both completed all 21 prompts.
 
 No crashes, no malformed tool calls, no infinite loops. Gemma 4 drove the full agentic loop — tool use, skill loading, live web search, multi-step code tracing — without falling over. That alone is the headline.
