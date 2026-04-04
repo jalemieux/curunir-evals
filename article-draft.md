@@ -38,7 +38,7 @@ These aren't exotic benchmarks — they're the kinds of things I actually do on 
 | **Error Recovery** | Handle missing files, failed commands, empty results | 3 |
 | **Efficiency** | Solve simple questions without unnecessary tool calls | 3 |
 
-The harness connects over WebSocket, sends each prompt, records every tool call and final response, and saves to JSON. Same codebase, same prompt, same tools — only the model changes.
+The harness connects over WebSocket, sends each prompt, records every tool call and final response, and saves to JSON. Same codebase, same prompt, same tools — only the model changes. The [eval prompts](https://github.com/jalemieux/curunir-evals/blob/main/simple_evals.md) and [harness script](https://github.com/jalemieux/curunir-evals/blob/main/run_evals.py) are public.
 
 ## Results
 
@@ -96,4 +96,4 @@ No crashes, no malformed tool calls, no infinite loops. Gemma 4 drove the full a
 
 ---
 
-*Tested on Curunir at commit `fe87420`. April 3, 2026.*
+*Tested on Curunir at commit `fe87420`. Full results: [jalemieux/curunir-evals](https://github.com/jalemieux/curunir-evals). April 3, 2026.*
