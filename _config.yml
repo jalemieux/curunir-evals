@@ -1,0 +1,5 @@
+remote_theme: pages-themes/minimal@v0.2.0
+title: Curunir Evals
+description: Can a local 26B model run an agentic framework?
+plugins:
+  - jekyll-remote-theme
