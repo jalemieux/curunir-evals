@@ -1,3 +1,8 @@
+---
+layout: default
+title: "Can a Local 26B Model Run an Agentic Framework?"
+---
+
 # Can a Local 26B Model Run an Agentic Framework?
 
 I ran Google's Gemma 4 26B — a mixture-of-experts model running locally on my Mac — head-to-head against Claude Sonnet 4 on the same 21-prompt agentic eval suite. Same harness, same tools, same system prompt. The only variable: the model.
