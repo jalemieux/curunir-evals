@@ -18,8 +18,11 @@ The result: E4B completed 21 of 24 prompts. Sonnet completed 23. The tool-callin
 | | Gemma 4 E4B-IT | Claude Sonnet 4.6 |
 |---|---|---|
 | **Runs** | Local (OpenAI-compatible API) | Anthropic cloud |
+| **Hardware** | MacBook Pro, Apple M5 Pro, 48GB unified memory | Anthropic infrastructure |
 | **Architecture** | ~4B parameters | Undisclosed |
 | **Quantization** | None (native weights) | N/A (full precision) |
+| **Inference engine** | llama.cpp `b8660` (`d00685831`) | — |
+| **Model router** | llama-swap v199 (`8fabc756`, 2026-03-25) | — |
 | **Cost** | Free | Paid API |
 | **Privacy** | Full — nothing leaves the machine | Data sent to Anthropic |
 

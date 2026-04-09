@@ -18,8 +18,11 @@ The short answer: yes. Gemma 26B completed all 24 prompts. Sonnet 4.6 completed 
 | | Gemma 4 26B-A4B-IT | Claude Sonnet 4.6 |
 |---|---|---|
 | **Runs** | Local (OpenAI-compatible API) | Anthropic cloud |
+| **Hardware** | MacBook Pro, Apple M5 Pro, 48GB unified memory | Anthropic infrastructure |
 | **Architecture** | 26B MoE (4B active) | Undisclosed |
 | **Quantization** | Q8_0 (GGUF) | N/A (full precision) |
+| **Inference engine** | llama.cpp `b8660` (`d00685831`) | — |
+| **Model router** | llama-swap v199 (`8fabc756`, 2026-03-25) | — |
 | **Cost** | Free | Paid API |
 | **Privacy** | Full — nothing leaves the machine | Data sent to Anthropic |
 
