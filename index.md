@@ -5,19 +5,16 @@ title: Curunir Evals
 
 # Curunir Evals
 
-Agentic eval results comparing local and cloud models. Same harness, same prompts, same tools — only the model changes.
+Can different models actually drive an autonomous agent? We're running a growing set of models through the same 24-prompt eval suite on [Curunir](https://github.com/jalemieux/curunir) — an agentic framework with tool use, memory, skills, and multi-step planning. Same harness, same prompts, same tools. The only variable is the model. Claude Sonnet 4.6 is the baseline.
 
 ## Articles
 
-- [Can a 4B Local Model Run an Agentic Framework?](article-draft-e4b) — Gemma 4 E4B vs Claude Sonnet 4
-- [Can a Local 26B Model Run an Agentic Framework?](article-draft) — Gemma 4 26B vs Claude Sonnet 4
+1. [Can a Local 26B Model Drive an Agentic Framework?](reviews/article-draft-26b-sonnet46-20260407) — Gemma 4 26B vs Sonnet 4.6
+2. [How Far Down Can You Go? E4B vs Sonnet 4.6](reviews/article-draft-e4b-sonnet46-20260407) — Gemma 4 E4B vs Sonnet 4.6
+3. [GLM-5 Turbo vs Sonnet 4.6: A Statistical Tie](reviews/article-draft-glm5turbo-sonnet46-20260408) — Zhipu AI GLM-5 Turbo vs Sonnet 4.6
+4. [Kimi K2.5: When Path Hallucination Kills Agentic Tool Use](reviews/article-draft-kimik25-sonnet46-20260408) — Moonshot AI Kimi K2.5 vs Sonnet 4.6
 
-## Raw Eval Results
-
-- [Gemma 4 E4B](https://github.com/jalemieux/curunir-evals/blob/main/eval-20260406-212633-openai_gemma-4-E4B-it.md)
-- [Gemma 4 26B](https://github.com/jalemieux/curunir-evals/blob/main/eval-20260403-174008-openai_gemma-4-26B-A4B-it.md)
-- [Claude Sonnet 4](https://github.com/jalemieux/curunir-evals/blob/main/eval-20260403-175244-anthropic_claude-sonnet-4-20250514.md)
-- [GLM 5 Turbo](https://github.com/jalemieux/curunir-evals/blob/main/eval-20260403-174420-openrouter_z-ai_glm-5-turbo.md)
+[Full series index](reviews/)
 
 ## Source
 
