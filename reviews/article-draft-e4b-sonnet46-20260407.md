@@ -3,6 +3,8 @@ layout: default
 title: "How Far Down Can You Go? E4B vs Sonnet 4.6"
 ---
 
+*This article is part of the [Agentic Eval Series](./), where we run different models through the same 24-prompt eval suite on [Curunir](https://github.com/jalemieux/curunir) — an agentic framework with tool use, memory, skills, and multi-step planning. Same harness, same prompts, same tools. The only variable is the model. Claude Sonnet 4.6 is the baseline.*
+
 # How Far Down Can You Go? E4B vs Sonnet 4.6
 
 [Part 1](article-draft-26b-sonnet46-20260407) established that Gemma 4 26B can drive an agentic framework. It completed all 24 prompts, matched Sonnet on half of them, and ran locally for free. The question that raises: how small can you go before the agent breaks?

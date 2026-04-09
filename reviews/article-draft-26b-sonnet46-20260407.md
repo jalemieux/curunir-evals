@@ -3,6 +3,8 @@ layout: default
 title: "Can a Local 26B Model Drive an Agentic Framework?"
 ---
 
+*This article is part of the [Agentic Eval Series](./), where we run different models through the same 24-prompt eval suite on [Curunir](https://github.com/jalemieux/curunir) — an agentic framework with tool use, memory, skills, and multi-step planning. Same harness, same prompts, same tools. The only variable is the model. Claude Sonnet 4.6 is the baseline.*
+
 # Can a Local 26B Model Drive an Agentic Framework?
 
 I ran Google's Gemma 4 26B — a mixture-of-experts model running locally on my Mac — against Claude Sonnet 4.6 on a 24-prompt agentic eval suite. Same harness, same tools, same system prompt. The only variable: the model.
