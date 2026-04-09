@@ -41,6 +41,13 @@ Each article compares one model against Sonnet 4.6, prompt by prompt. Where they
 
 More comparisons coming as we run additional models through the harness.
 
+## Companion Pieces
+
+Follow-ups to the main articles — performance characterization, reruns, and other supporting pieces that don't fit the model-vs-Sonnet format.
+
+- [How Fast Is Gemma 4 26B on a MacBook Pro?](article-draft-26b-perf-20260409) — performance characterization of the 26B local run
+- [Gemma 4 26B, Rerun: What Changes on a Newer llama.cpp?](article-draft-26b-rerun-20260409) — same model, new llama.cpp build, reproducibility check
+
 ## Source
 
 The [eval prompts](https://github.com/jalemieux/curunir-evals/blob/main/simple_evals.md) and [harness script](https://github.com/jalemieux/curunir-evals/blob/main/run_evals.py) are public.
