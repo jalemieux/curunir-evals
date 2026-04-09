@@ -3,7 +3,7 @@ layout: default
 title: "Kimi K2.5: When Path Hallucination Kills Agentic Tool Use"
 ---
 
-*This article is part of the [Agentic Eval Series](./), where we run different models through the same 24-prompt eval suite on [Curunir](https://github.com/jalemieux/curunir) — an agentic framework with tool use, memory, skills, and multi-step planning. Same harness, same prompts, same tools. The only variable is the model. Claude Sonnet 4.6 is the baseline.*
+*This article is part of the [Agentic Eval Series](./), where we run different models through the same 24-prompt eval suite on [Curunir](https://github.com/jalemieux/curunir) — an agentic framework with tool use, memory, skills, and multi-step planning. Same harness, same prompts, same tools. The only variable is the model. Claude Sonnet 4.6 is the baseline. This is a qualitative smoke test — single-run, no repeated trials — useful for spotting capability gaps, not for definitive model rankings.*
 
 # Kimi K2.5: When Path Hallucination Kills Agentic Tool Use
 

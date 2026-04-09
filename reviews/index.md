@@ -7,6 +7,8 @@ title: "Agentic Eval Series"
 
 Can models other than the big cloud APIs actually drive an autonomous agent? Tool calling, multi-step planning, memory retrieval, skill orchestration, error recovery — the basics of an agentic loop. We're running a growing set of models through the same eval harness to find out.
 
+**A note on methodology:** This is a qualitative smoke test, not a rigorous scientific evaluation. Each model is run once through the same 24 prompts — there are no repeated trials, no statistical significance tests, and no controlled ablations. The results are directional: useful for spotting capability gaps and failure modes, not for making definitive claims about model rankings.
+
 ## What We're Testing
 
 The benchmark is [Curunir](https://github.com/jalemieux/curunir), a Python agentic framework with basic tools (grep, read, write, bash, web fetch), loadable skills, persistent memory, and multiple channels. The model receives tool schemas via JSON function calling, decides which tools to use, executes them, reads results, and loops until it has an answer.
