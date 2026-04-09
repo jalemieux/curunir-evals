@@ -14,6 +14,7 @@ Can different models actually drive an autonomous agent? We're running a growing
 3. [GLM-5 Turbo vs Sonnet 4.6: A Statistical Tie](reviews/article-draft-glm5turbo-sonnet46-20260408) — Zhipu AI GLM-5 Turbo vs Sonnet 4.6
 4. [Kimi K2.5: When Path Hallucination Kills Agentic Tool Use](reviews/article-draft-kimik25-sonnet46-20260408) — Moonshot AI Kimi K2.5 vs Sonnet 4.6
 5. [MiniMax M2.7: Another Cloud Model Goes Toe-to-Toe with Sonnet](reviews/article-draft-minimaxm27-sonnet46-20260408) — MiniMax M2.7 vs Sonnet 4.6
+6. [GLM-5.1: A Step Backward from GLM-5 Turbo](reviews/article-draft-glm51-sonnet46-20260408) — Zhipu AI GLM-5.1 vs Sonnet 4.6
 
 [Full series index](reviews/)
 
