@@ -32,12 +32,12 @@ Same harness, same prompts, same tools, same system prompt. The only variable is
 
 Each article compares one model against Sonnet 4.6, prompt by prompt. Where they're equal, where one is better, where they fail.
 
-1. [Can a Local 26B Model Drive an Agentic Framework?](reviews/article-draft-26b-sonnet46-20260407) — Gemma 4 26B vs Sonnet 4.6
-2. [How Far Down Can You Go? E4B vs Sonnet 4.6](reviews/article-draft-e4b-sonnet46-20260407) — Gemma 4 E4B vs Sonnet 4.6
-3. [GLM-5 Turbo vs Sonnet 4.6: A Statistical Tie](reviews/article-draft-glm5turbo-sonnet46-20260408) — Zhipu AI GLM-5 Turbo vs Sonnet 4.6
-4. [Kimi K2.5: When Path Hallucination Kills Agentic Tool Use](reviews/article-draft-kimik25-sonnet46-20260408) — Moonshot AI Kimi K2.5 vs Sonnet 4.6
-5. [MiniMax M2.7: Another Cloud Model Goes Toe-to-Toe with Sonnet](reviews/article-draft-minimaxm27-sonnet46-20260408) — MiniMax M2.7 vs Sonnet 4.6
-6. [GLM-5.1: A Step Backward from GLM-5 Turbo](reviews/article-draft-glm51-sonnet46-20260408) — Zhipu AI GLM-5.1 vs Sonnet 4.6
+1. [Can a Local 26B Model Drive an Agentic Framework?](reviews/article-draft-26b-sonnet46-20260407) — Gemma 4 26B vs Sonnet 4.6 *(2026-04-07)*
+2. [How Far Down Can You Go? E4B vs Sonnet 4.6](reviews/article-draft-e4b-sonnet46-20260407) — Gemma 4 E4B vs Sonnet 4.6 *(2026-04-07)*
+3. [GLM-5 Turbo vs Sonnet 4.6: A Statistical Tie](reviews/article-draft-glm5turbo-sonnet46-20260408) — Zhipu AI GLM-5 Turbo vs Sonnet 4.6 *(2026-04-08)*
+4. [Kimi K2.5: When Path Hallucination Kills Agentic Tool Use](reviews/article-draft-kimik25-sonnet46-20260408) — Moonshot AI Kimi K2.5 vs Sonnet 4.6 *(2026-04-08)*
+5. [MiniMax M2.7: Another Cloud Model Goes Toe-to-Toe with Sonnet](reviews/article-draft-minimaxm27-sonnet46-20260408) — MiniMax M2.7 vs Sonnet 4.6 *(2026-04-08)*
+6. [GLM-5.1: A Step Backward from GLM-5 Turbo](reviews/article-draft-glm51-sonnet46-20260408) — Zhipu AI GLM-5.1 vs Sonnet 4.6 *(2026-04-08)*
 
 More comparisons coming as we run additional models through the harness.
 
@@ -45,8 +45,8 @@ More comparisons coming as we run additional models through the harness.
 
 Follow-ups to the main articles — performance characterization, reruns, and other supporting pieces that don't fit the model-vs-Sonnet format.
 
-- [How Fast Is Gemma 4 26B on a MacBook Pro?](reviews/article-draft-26b-perf-20260409) — performance characterization of the 26B local run
-- [Gemma 4 26B, Rerun: What Changes on a Newer llama.cpp?](reviews/article-draft-26b-rerun-20260409) — same model, new llama.cpp build, reproducibility check
+- [How Fast Is Gemma 4 26B on a MacBook Pro?](reviews/article-draft-26b-perf-20260409) — performance characterization of the 26B local run *(2026-04-09)*
+- [Gemma 4 26B, Rerun: What Changes on a Newer llama.cpp?](reviews/article-draft-26b-rerun-20260409) — same model, new llama.cpp build, reproducibility check *(2026-04-09)*
 
 ## Source
 
