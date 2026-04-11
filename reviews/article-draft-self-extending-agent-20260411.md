@@ -149,32 +149,27 @@ Screenshots from the actual session, for the curious.
 
 <details>
 <summary>1. The agent audits its own toolkit and identifies gaps</summary>
-
-![Toolkit audit](images/self-extending-1-toolkit-audit.png)
+<p><img src="images/self-extending-1-toolkit-audit.png" alt="Toolkit audit"></p>
 </details>
 
 <details>
 <summary>2. Source map, clarifying questions, then skill creation in one turn</summary>
-
-![Skill creation](images/self-extending-2-skill-creation.png)
+<p><img src="images/self-extending-2-skill-creation.png" alt="Skill creation"></p>
 </details>
 
 <details>
 <summary>3. Scheduling the task and firing a test run</summary>
-
-![Test run](images/self-extending-3-test-run.png)
+<p><img src="images/self-extending-3-test-run.png" alt="Test run"></p>
 </details>
 
 <details>
 <summary>4. The full digest output</summary>
-
-![Digest output](images/self-extending-4-digest-output.png)
+<p><img src="images/self-extending-4-digest-output.png" alt="Digest output"></p>
 </details>
 
 <details>
 <summary>5. The email that arrived the next morning</summary>
-
-![Email received](images/self-extending-5-email-received.png)
+<p><img src="images/self-extending-5-email-received.png" alt="Email received"></p>
 </details>
 
 ---
