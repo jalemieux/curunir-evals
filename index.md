@@ -48,6 +48,7 @@ Follow-ups to the main articles — performance characterization, reruns, and ot
 
 - [How Fast Is Gemma 4 26B on a MacBook Pro?](reviews/article-draft-26b-perf-20260409) — performance characterization of the 26B local run *(2026-04-09)*
 - [Gemma 4 26B, Rerun: What Changes on a Newer llama.cpp?](reviews/article-draft-26b-rerun-20260409) — same model, new llama.cpp build, reproducibility check *(2026-04-09)*
+- [When the Agent Writes Its Own Skills](reviews/article-draft-self-extending-agent-20260411) — GLM-5 Turbo autonomously creates a reusable skill and schedules it *(2026-04-11)*
 
 ## Source
 
