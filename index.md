@@ -38,6 +38,7 @@ Each article compares one model against Sonnet 4.6, prompt by prompt. Where they
 4. [Kimi K2.5: When Path Hallucination Kills Agentic Tool Use](reviews/article-draft-kimik25-sonnet46-20260408) — Moonshot AI Kimi K2.5 vs Sonnet 4.6 *(2026-04-08)*
 5. [MiniMax M2.7: Another Cloud Model Goes Toe-to-Toe with Sonnet](reviews/article-draft-minimaxm27-sonnet46-20260408) — MiniMax M2.7 vs Sonnet 4.6 *(2026-04-08)*
 6. [GLM-5.1: A Step Backward from GLM-5 Turbo](reviews/article-draft-glm51-sonnet46-20260408) — Zhipu AI GLM-5.1 vs Sonnet 4.6 *(2026-04-08)*
+7. [Same Model, Half the Bits, No GPU](reviews/article-draft-26bq4-sonnet46-20260411) — Gemma 4 26B Q4_K_M (CPU) vs Sonnet 4.6 *(2026-04-11)*
 
 More comparisons coming as we run additional models through the harness.
 
