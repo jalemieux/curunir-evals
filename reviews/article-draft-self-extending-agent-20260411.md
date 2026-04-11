@@ -163,12 +163,7 @@ Screenshots from the actual session, for the curious.
 </details>
 
 <details>
-<summary>4. The full digest output</summary>
-<p><img src="images/self-extending-4-digest-output.png" alt="Digest output"></p>
-</details>
-
-<details>
-<summary>5. The email that arrived the next morning</summary>
+<summary>4. The email that arrived the next morning</summary>
 <p><img src="images/self-extending-5-email-received.png" alt="Email received"></p>
 </details>
 
