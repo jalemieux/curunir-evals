@@ -142,16 +142,16 @@ def build_metadata(
 ) -> dict:
     """Collect all available metadata about the inference environment.
 
-    When *inference_url* is set, inference is assumed to be remote and local
-    system info is suppressed (it would describe the wrong machine).  Use
-    *hardware* to record the remote machine's specs instead.
+    Passing *hardware* marks inference as remote: the manual description is
+    recorded and local system info is suppressed (it would describe the wrong
+    machine).  Otherwise, local system info is collected.
     """
     meta: dict = {}
     if inference_url:
         meta["server"] = query_inference_server(inference_url)
-        if hardware:
-            meta["hardware"] = hardware
-    else:
+    if hardware:
+        meta["hardware"] = hardware
+    elif not inference_url:
         meta["system"] = collect_system_info()
     if inference_cmd:
         meta["inference_cmd"] = inference_cmd
