@@ -39,6 +39,7 @@ Each article compares one model against Sonnet 4.6, prompt by prompt. Where they
 5. [MiniMax M2.7: Another Cloud Model Goes Toe-to-Toe with Sonnet](reviews/article-draft-minimaxm27-sonnet46-20260408) — MiniMax M2.7 vs Sonnet 4.6 *(2026-04-08)*
 6. [GLM-5.1: A Step Backward from GLM-5 Turbo](reviews/article-draft-glm51-sonnet46-20260408) — Zhipu AI GLM-5.1 vs Sonnet 4.6 *(2026-04-08)*
 7. [Same Model, Half the Bits, No GPU](reviews/article-draft-26bq4-sonnet46-20260411) — Gemma 4 26B Q4_K_M (CPU) vs Sonnet 4.6 *(2026-04-11)*
+8. [Qwen3.6 35B-A3B on CPU: A Sparser MoE, Different Failure Modes](reviews/article-draft-qwen36a3b-sonnet46-20260420) — Qwen3.6 35B-A3B Q4_K_M (CPU) vs Sonnet 4.6 *(2026-04-20)*
 
 More comparisons coming as we run additional models through the harness.
 
@@ -49,6 +50,10 @@ Follow-ups to the main articles — performance characterization, reruns, and ot
 - [How Fast Is Gemma 4 26B on a MacBook Pro?](reviews/article-draft-26b-perf-20260409) — performance characterization of the 26B local run *(2026-04-09)*
 - [Gemma 4 26B, Rerun: What Changes on a Newer llama.cpp?](reviews/article-draft-26b-rerun-20260409) — same model, new llama.cpp build, reproducibility check *(2026-04-09)*
 - [When the Agent Writes Its Own Skills](reviews/article-draft-self-extending-agent-20260411) — GLM-5 Turbo autonomously creates a reusable skill and schedules it *(2026-04-11)*
+- [Gemma 26B Q4, Third Run: What Orchestrator Mode Costs a Small Model](reviews/article-draft-26bq4-orchestrator-20260416) — same model and hardware as the Q4 article, under a delegate-based orchestrator harness *(2026-04-16)*
+- [Gemma 26B Q4 on the New Eval: What Held Up, What Didn't](reviews/article-draft-26bq4-20260417) — solo review of Gemma 26B Q4 through the new 29-prompt eval suite *(2026-04-17)*
+- [4 Active Experts vs 3: Gemma 26B-A4B vs Qwen3.6 35B-A3B on the Same Box](reviews/article-draft-26bq4-vs-qwen36a3b-20260420) — two local MoE Q4_K_M models head-to-head, same Ryzen box, no Sonnet baseline *(2026-04-20)*
+- [Gemma 26B Q4, Fourth Run: What a Small-Model Harness Branch Changes](reviews/article-draft-26bq4-smallmodel-harness-20260420) — same model weights, `main` vs `small-model` branch of Curunir on an M5 Pro *(2026-04-20)*
 
 ## Source
 

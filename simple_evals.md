@@ -6,15 +6,15 @@ Copy-paste these into the CLI to compare model behavior. Each prompt is self-con
 
 ## Tool Use Accuracy
 
-```max_loops=5
+```max_loops=15
 Find all Python files under src/tools/ that contain the word "async" and tell me how many there are.
 ```
 
-```max_loops=3
+```max_loops=10
 Read the file context/identity.md and summarize it in one sentence.
 ```
 
-```max_loops=3
+```max_loops=10
 What is the current working directory? List all top-level folders.
 ```
 
@@ -22,15 +22,15 @@ What is the current working directory? List all top-level folders.
 
 ## Multi-Step Planning
 
-```max_loops=15
+```max_loops=40
 I want to add a new tool called "summarize" that takes a file path and returns a summary. Walk me through every file I'd need to change and in what order, but don't make any changes.
 ```
 
-```max_loops=15
+```max_loops=40
 Find every skill that uses the "attach" tool, then for each one tell me what it does and why it needs attach.
 ```
 
-```max_loops=20
+```max_loops=50
 Figure out how an incoming message travels from the WebSocket connection all the way to a tool being executed. Trace the full path through the code, citing files and line numbers.
 ```
 
@@ -38,15 +38,15 @@ Figure out how an incoming message travels from the WebSocket connection all the
 
 ## Memory Retrieval
 
-```max_loops=8
+```max_loops=20
 What do you know about me? Check your memory before answering.
 ```
 
-```max_loops=5
+```max_loops=15
 Before answering this: what projects am I currently working on? Look in memory first.
 ```
 
-```max_loops=10
+```max_loops=25
 Who are the people you remember? Check context/memory/ for any information about contacts or collaborators.
 ```
 
@@ -54,15 +54,15 @@ Who are the people you remember? Check context/memory/ for any information about
 
 ## Instruction Following
 
-```max_loops=8
+```max_loops=20
 What is your name and what are you? Answer only from your identity file, don't make anything up.
 ```
 
-```max_loops=2
+```max_loops=5
 List all skills you have available. Only list what's in your skill manifest, nothing else.
 ```
 
-```max_loops=1
+```max_loops=2
 I want you to write a haiku about the ocean. Do not use any tools — just respond directly.
 ```
 
@@ -70,15 +70,15 @@ I want you to write a haiku about the ocean. Do not use any tools — just respo
 
 ## Skill Orchestration
 
-```max_loops=12
+```max_loops=30
 Load the web-search skill and search for "asyncio best practices 2025". Summarize the top results.
 ```
 
-```max_loops=5
+```max_loops=15
 Load the deep-research skill and tell me what sub-skills it depends on before running anything.
 ```
 
-```max_loops=5
+```max_loops=15
 Which skill would you use to research a topic on Reddit? Load it and explain what it does.
 ```
 
@@ -86,15 +86,15 @@ Which skill would you use to research a topic on Reddit? Load it and explain wha
 
 ## Error Recovery
 
-```max_loops=3
+```max_loops=10
 Read the file src/nonexistent/fake_module.py and tell me what's in it.
 ```
 
-```max_loops=3
+```max_loops=10
 Run the bash command `python -c "import nonexistent_module"` and handle whatever happens.
 ```
 
-```max_loops=3
+```max_loops=10
 Search for the pattern "zzz_no_match_zzz" across the entire codebase. What do you conclude?
 ```
 
@@ -102,15 +102,15 @@ Search for the pattern "zzz_no_match_zzz" across the entire codebase. What do yo
 
 ## Output Quality
 
-```max_loops=8
+```max_loops=20
 Explain how Curunir's context overflow handling works. Be concise — under 100 words.
 ```
 
-```max_loops=5
+```max_loops=15
 Compare the delegate tool to a simple function call. When would you use one vs the other?
 ```
 
-```max_loops=10
+```max_loops=25
 Read src/agent/agent.py, src/tools/dispatcher.py, and src/skills.py. What is the most important design decision in each file? Justify briefly.
 ```
 
@@ -118,14 +118,14 @@ Read src/agent/agent.py, src/tools/dispatcher.py, and src/skills.py. What is the
 
 ## Efficiency
 
-```max_loops=8
+```max_loops=20
 What model am I configured to use? Find the answer with as few tool calls as possible.
 ```
 
-```max_loops=3
+```max_loops=10
 Does this project have any scheduled tasks? Check and report.
 ```
 
-```max_loops=8
+```max_loops=20
 How many tests does this project have? Just give me the number.
 ```
