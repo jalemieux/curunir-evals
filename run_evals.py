@@ -180,7 +180,9 @@ async def send_prompt(ws, prompt: str, max_loops: int | None = None) -> dict:
     await ws.send(json.dumps({"content": prompt, "command": None}))
 
     tool_calls = []
-    content_parts = []
+    text_segments: list[str] = []   # one entry per completed stream burst (or non-streamed final content)
+    streaming_chunks: list[str] = []  # in-progress delta chunks for the current burst
+    got_stream = False
     stats = None
     tool_call_count = 0
     hit_limit = False
@@ -188,14 +190,31 @@ async def send_prompt(ws, prompt: str, max_loops: int | None = None) -> dict:
     async for raw in ws:
         data = json.loads(raw)
 
+        # Streaming text delta — print chunk live, accumulate for the segment
+        if data.get("delta"):
+            chunk = data.get("content") or ""
+            if chunk:
+                got_stream = True
+                streaming_chunks.append(chunk)
+                print(chunk, end="", flush=True)
+            continue
+
+        # Non-delta message: flush any in-progress stream first
+        if streaming_chunks:
+            text_segments.append("".join(streaming_chunks))
+            streaming_chunks.clear()
+            print()  # newline after the streamed burst
+
         for tc in data.get("tool_calls") or []:
             tool_calls.append(tc)
             tool_call_count += 1
             print(f"  ├─ {tc}")
 
         text = data.get("content") or ""
-        if text:
-            content_parts.append(text)
+        # If we streamed, the final non-delta `content` duplicates the last
+        # burst we already captured (cli.py:363 does the same).
+        if text and not got_stream:
+            text_segments.append(text)
             print(text)
 
         if data.get("stats"):
@@ -216,6 +235,12 @@ async def send_prompt(ws, prompt: str, max_loops: int | None = None) -> dict:
                     break
             break
 
+    # Flush any trailing stream that didn't get a non-delta follow-up
+    if streaming_chunks:
+        text_segments.append("".join(streaming_chunks))
+        streaming_chunks.clear()
+        print()
+
     # Print stats summary
     if stats:
         parts = []
@@ -230,7 +255,7 @@ async def send_prompt(ws, prompt: str, max_loops: int | None = None) -> dict:
         if parts:
             print(f"  [{' | '.join(parts)}]")
 
-    response = "\n".join(content_parts)
+    response = "\n".join(text_segments)
     if hit_limit and not response.strip():
         response = (
             f"*Model did not produce a response within the tool-call budget "
